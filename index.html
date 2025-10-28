@@ -128,7 +128,7 @@
 
         <!-- Step 1: Choose Random or Pick -->
         <div id="step1" class="step active bg-gray-100 p-6 rounded-lg shadow-lg py-extra mb-extra">
-            <h2 class="text-xl mb-4 text-center">Step 1: Choose Your Cards</h2>
+            <h2 class="text-xl mb-4 text-center">We can help you arrange your cards</h2>
             <div class="btn-group">
                 <button onclick="goToRandom()" class="btn-primary hover:bg-red-700 text-white px-6 py-2 rounded">See Demo</button>
                 <button onclick="goToPick()" class="btn-primary hover:bg-red-700 text-white px-6 py-2 rounded">Pick Cards</button>
@@ -137,7 +137,7 @@
 
         <!-- Step 2 (Random): Show 13 Cards -->
         <div id="step2-random" class="step bg-gray-100 p-6 rounded-lg shadow-lg py-extra mb-extra">
-            <h2 class="text-xl mb-4 text-center">Step 2: Your 13 Random Cards</h2>
+            <h2 class="text-xl mb-4 text-center">Your 13 Random Cards</h2>
             <div id="randomCards" class="flex flex-wrap justify-center"></div>
             <div class="btn-group mt-6">
                 <button onclick="goToArrange('step2-random')" class="btn-primary hover:bg-red-700 text-white px-6 py-2 rounded">Arrange Hands</button>
@@ -147,15 +147,15 @@
 
         <!-- Step 2 (Pick): Show 52 Cards in Grid -->
         <div id="step2-pick" class="step bg-gray-100 p-6 rounded-lg shadow-lg py-extra mb-extra">
-            <h2 class="text-xl mb-4 text-center">Step 2: Pick 13 Cards (<span id="cardCount">0</span>/13)</h2>
+            <h2 class="text-xl mb-4 text-center">Pick 13 Cards</h2>
             <div class="grid grid-cols-4 gap-3 max-w-md mx-auto">
-                <div id="diamonds" class="flex flex-col"></div>
-                <div id="clubs" class="flex flex-col"></div>
-                <div id="hearts" class="flex flex-col"></div>
-                <div id="spades" class="flex flex-col"></div>
+                <div id="diamonds" class="flex flex-col items-center gap-2"></div>
+                <div id="clubs" class="flex flex-col items-center gap-2"></div>
+                <div id="hearts" class="flex flex-col items-center gap-2"></div>
+                <div id="spades" class="flex flex-col items-center gap-2"></div>
             </div>
             <div class="btn-group mt-6">
-                <button onclick="confirmPick()" class="btn-primary hover:bg-red-700 text-white px-6 py-2 rounded" disabled id="confirmBtn">Confirm Selection</button>
+                <button onclick="confirmPick()" class="btn-primary hover:bg-red-700 text-white px-6 py-2 rounded" disabled id="confirmBtn">Confirm Selection (0/13)</button>
                 <button onclick="resetToStep1()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded">Back</button>
             </div>
             <p id="pickError" class="error text-center mt-3 hidden">Please select exactly 13 cards.</p>
@@ -163,7 +163,7 @@
 
         <!-- Step 3: Optimal Arrangement -->
         <div id="step3" class="step bg-gray-100 p-6 rounded-lg shadow-lg py-extra mb-extra">
-            <h2 class="text-xl mb-4 text-center slide-in">Step 3: Optimal Arrangement</h2>
+            <h2 class="text-xl mb-4 text-center slide-in">Arrangement Suggestion</h2>
             <div id="arrangements"></div>
             <div class="btn-group mt-6">
                 <button onclick="goBackToStep2()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded">Back</button>
@@ -198,7 +198,7 @@
         function goToPick() {
             currentCards = [];
             displayDeck();
-            document.getElementById('cardCount').textContent = '0';
+            document.getElementById('confirmBtn').innerHTML = 'Confirm Selection (0/13)';
             document.getElementById('confirmBtn').disabled = true;
             document.getElementById('pickError').classList.add('hidden');
             previousStep = 'step2-pick';
@@ -301,7 +301,7 @@
                 currentCards.push(card);
                 cardDiv.classList.add('selected');
             }
-            document.getElementById('cardCount').textContent = currentCards.length;
+            document.getElementById('confirmBtn').innerHTML = `Confirm Selection (${currentCards.length}/13)`;
             document.getElementById('confirmBtn').disabled = currentCards.length !== 13;
             document.getElementById('pickError').classList.toggle('hidden', currentCards.length <= 13);
         }
