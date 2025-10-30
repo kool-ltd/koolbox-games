@@ -25,6 +25,7 @@
         .card-back { background: url('https://via.placeholder.com/55x73/4a5568/fff?text=') no-repeat center; transform: rotateY(180deg); background-size: cover; }
         .card.flipped { transform: rotateY(180deg); }
         .card.selected { border: 2px solid #38a169; box-shadow: 0 0 8px #38a169; }
+        .card.highlight-highest { border: 2px solid #e53e3e !important; box-shadow: 0 0 12px rgba(229, 62, 62, 0.6); }
         .hearts, .diamonds { color: red; }
         .spades, .clubs { color: black; }
         .hand { margin-bottom: 24px; }
@@ -66,7 +67,7 @@
         h1, h2 { text-align: center; }
         .py-extra { padding-top: 24px; padding-bottom: 24px; }
         .mb-extra { margin-bottom: 32px; }
-        .btn-group { display: flex; justify-content: center; gap: 16px; margin-top: 16px; }
+        .btn-group { display: flex; justify-content: center; gap: 16px; margin-top: 2rem; }
         .hand-title { font-weight: bold; font-size: 1.1rem; margin-bottom: 12px; margin-top: 30px; text-align: center; }
         .front-section { margin-top: 40px; }
     </style>
@@ -75,7 +76,6 @@
     <div class="content-container">
         <h1 class="text-3xl font-bold mb-2">Chinese Poker</h1>
         <h2 class="text-xl mb-6 italic">Three rows (3-5-5) for the Past, Present, and Future.</h2>
-
         <!-- Explanation -->
         <div id="explanation" class="explanation max-w-2xl mx-auto mb-extra">
             <p>Chinese Poker is a strategic card game where you're dealt 13 cards and must arrange them into three poker hands:</p>
@@ -85,14 +85,14 @@
                 <li><strong>Back hand:</strong> 5 cards (strongest)</li>
             </ul>
             <p>The <strong>Back must beat the Middle</strong>, and the <strong>Middle must beat the Front</strong> using standard poker hand rankings. If not, it's a <em>foul</em> and you lose the round.</p>
-           
+          
             <p class="mt-4 font-semibold">Valid 3-card hands (Front):</p>
             <ul class="list-disc pl-6 mb-4">
                 <li>Three of a Kind (strongest)</li>
                 <li>Pair</li>
                 <li>High Card (weakest)</li>
             </ul>
-            
+           
             <p class="font-semibold">Example of a valid arrangement:</p>
             <div class="demo-grid">
                 <div class="demo-label">Front:</div>
@@ -102,7 +102,7 @@
                     <div class="card"><div class="card-face card-front diamonds">Q♦</div></div>
                 </div>
                 <div class="demo-desc">(High Card - Ace high)</div>
-            
+           
                 <div class="demo-label">Middle:</div>
                 <div class="demo-cards">
                     <div class="card"><div class="card-face card-front spades">8♠</div></div>
@@ -112,7 +112,7 @@
                     <div class="card"><div class="card-face card-front spades">6♠</div></div>
                 </div>
                 <div class="demo-desc">(Two Pair - 8s and 7s)</div>
-            
+           
                 <div class="demo-label">Back:</div>
                 <div class="demo-cards">
                     <div class="card"><div class="card-face card-front hearts">10♥</div></div>
@@ -125,7 +125,6 @@
             </div>
             <p class="mt-4 text-sm text-gray-600">This is valid: Royal Flush > Two Pair > High Card.</p>
         </div>
-
         <!-- Step 1: Choose Random or Pick -->
         <div id="step1" class="step active bg-gray-100 p-6 rounded-lg shadow-lg py-extra mb-extra">
             <h2 class="text-xl mb-4 text-center">We can help you arrange your cards</h2>
@@ -134,47 +133,45 @@
                 <button onclick="goToPick()" class="btn-primary hover:bg-red-700 text-white px-6 py-2 rounded">Pick Cards</button>
             </div>
         </div>
-
         <!-- Step 2 (Random): Show 13 Cards -->
         <div id="step2-random" class="step bg-gray-100 p-6 rounded-lg shadow-lg py-extra mb-extra">
             <h2 class="text-xl mb-4 text-center">Your 13 Random Cards</h2>
             <div id="randomCards" class="flex flex-wrap justify-center"></div>
-            <div class="btn-group mt-6">
+            <div class="btn-group mt-8">
                 <button onclick="goToArrange('step2-random')" class="btn-primary hover:bg-red-700 text-white px-6 py-2 rounded">Arrange Hands</button>
                 <button onclick="resetToStep1()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded">Back</button>
             </div>
         </div>
-
         <!-- Step 2 (Pick): Show 52 Cards in Grid -->
         <div id="step2-pick" class="step bg-gray-100 p-6 rounded-lg shadow-lg py-extra mb-extra">
             <h2 class="text-xl mb-4 text-center">Pick 13 Cards</h2>
-            <div class="grid grid-cols-4 gap-3 max-w-md mx-auto">
-                <div id="diamonds" class="flex flex-col items-center gap-2"></div>
-                <div id="clubs" class="flex flex-col items-center gap-2"></div>
-                <div id="hearts" class="flex flex-col items-center gap-2"></div>
-                <div id="spades" class="flex flex-col items-center gap-2"></div>
+            <div class="grid grid-cols-4 gap-6 max-w-md mx-auto">
+                <!-- Order: Spades, Hearts, Clubs, Diamonds -->
+                <div id="spades" class="flex flex-col items-center gap-6"></div>
+                <div id="hearts" class="flex flex-col items-center gap-6"></div>
+                <div id="clubs" class="flex flex-col items-center gap-6"></div>
+                <div id="diamonds" class="flex flex-col items-center gap-6"></div>
             </div>
-            <div class="btn-group mt-6">
+            <div class="btn-group mt-8">
                 <button onclick="confirmPick()" class="btn-primary hover:bg-red-700 text-white px-6 py-2 rounded" disabled id="confirmBtn">Confirm Selection (0/13)</button>
                 <button onclick="resetToStep1()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded">Back</button>
             </div>
             <p id="pickError" class="error text-center mt-3 hidden">Please select exactly 13 cards.</p>
         </div>
-
         <!-- Step 3: Optimal Arrangement -->
         <div id="step3" class="step bg-gray-100 p-6 rounded-lg shadow-lg py-extra mb-extra">
             <h2 class="text-xl mb-4 text-center slide-in">Arrangement Suggestion</h2>
             <div id="arrangements"></div>
-            <div class="btn-group mt-6">
+            <div class="btn-group mt-8">
                 <button onclick="goBackToStep2()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded">Back</button>
                 <button onclick="resetToStep1()" class="btn-primary hover:bg-red-700 text-white px-6 py-2 rounded">Start Over</button>
             </div>
         </div>
     </div>
-
     <script>
         const suits = { h: '♥', s: '♠', c: '♣', d: '♦' };
         const suitClasses = { h: 'hearts', s: 'spades', c: 'clubs', d: 'diamonds' };
+        const suitValues = { s: 4, h: 3, c: 2, d: 1 };
         const ranks = ['A', 'K', 'Q', 'J', '10', '9', '8', '7', '6', '5', '4', '3', '2'];
         const rankValues = { '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14 };
         let currentCards = [];
@@ -187,34 +184,29 @@
             const explanation = document.getElementById('explanation');
             explanation.style.display = (stepId === 'step1') ? 'block' : 'none';
         }
-
         function goToRandom() {
             currentCards = shuffle(generateDeck()).slice(0, 13).sort(compareCards);
             displayCards(currentCards, 'randomCards');
             previousStep = 'step2-random';
             showStep('step2-random');
         }
-
         function goToPick() {
             currentCards = [];
-            displayDeck();
+            displayDeck();  // No highlight here
             document.getElementById('confirmBtn').innerHTML = 'Confirm Selection (0/13)';
             document.getElementById('confirmBtn').disabled = true;
             document.getElementById('pickError').classList.add('hidden');
             previousStep = 'step2-pick';
             showStep('step2-pick');
         }
-
         function goToArrange(step) {
             previousStep = step;
             arrangeHands();
             showStep('step3');
         }
-
         function goBackToStep2() {
             showStep(previousStep);
         }
-
         function resetToStep1() {
             currentCards = [];
             previousStep = '';
@@ -231,7 +223,6 @@
             }
             return deck;
         }
-
         function shuffle(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -239,16 +230,17 @@
             }
             return array;
         }
-
         function compareCards(a, b) {
             const rankA = rankValues[a.slice(0, -1)];
             const rankB = rankValues[b.slice(0, -1)];
+            const suitA = a.slice(-1);
+            const suitB = b.slice(-1);
             if (rankA !== rankB) return rankB - rankA;
-            return a.charCodeAt(a.length - 1) - b.charCodeAt(b.length - 1);
+            return suitValues[suitB] - suitValues[suitA];
         }
 
-        // Display cards
-        function displayCards(cards, divId, flip = false) {
+        // Display cards (generic)
+        function displayCards(cards, divId, flip = false, highlightHighest = false) {
             const div = document.getElementById(divId);
             div.innerHTML = '';
             cards.forEach((card, i) => {
@@ -260,29 +252,40 @@
                     <div class="card-face card-front ${suitClasses[card.slice(-1)]}">
                         ${formatRank(card.slice(0, -1)) + suits[card.slice(-1)]}
                     </div>`;
+                // Highlight highest card only in Step 3
+                if (highlightHighest && i === 0) {
+                    cardDiv.classList.add('highlight-highest');
+                }
                 div.appendChild(cardDiv);
                 if (flip) {
                     setTimeout(() => cardDiv.classList.remove('flipped'), 500 + i * 100);
                 }
             });
         }
-
         function formatRank(rank) {
             return rank === '10' ? '10' : rank;
         }
 
+        // Step 2: Display full deck — NO HIGHLIGHT
         function displayDeck() {
             const deck = generateDeck();
             const bySuit = {
-                d: deck.filter(c => c.endsWith('d')).sort(compareCards),
-                c: deck.filter(c => c.endsWith('c')).sort(compareCards),
+                s: deck.filter(c => c.endsWith('s')).sort(compareCards),
                 h: deck.filter(c => c.endsWith('h')).sort(compareCards),
-                s: deck.filter(c => c.endsWith('s')).sort(compareCards)
+                c: deck.filter(c => c.endsWith('c')).sort(compareCards),
+                d: deck.filter(c => c.endsWith('d')).sort(compareCards)
             };
-            ['diamonds', 'clubs', 'hearts', 'spades'].forEach(suit => {
-                const suitDiv = document.getElementById(suit);
+
+            const suitOrder = ['s', 'h', 'c', 'd'];
+            const containerIds = ['spades', 'hearts', 'clubs', 'diamonds'];
+
+            containerIds.forEach((id, index) => {
+                const suitKey = suitOrder[index];
+                const suitDiv = document.getElementById(id);
                 suitDiv.innerHTML = '';
-                bySuit[suit[0]].forEach(card => {
+                const suitCards = bySuit[suitKey];
+
+                suitCards.forEach(card => {
                     const cardDiv = document.createElement('div');
                     cardDiv.className = `card ${suitClasses[card.slice(-1)]}`;
                     cardDiv.innerHTML = `<div class="card-face card-front">${formatRank(card.slice(0, -1)) + suits[card.slice(-1)]}</div>`;
@@ -315,11 +318,10 @@
             goToArrange('step2-pick');
         }
 
-        // Poker evaluation
+        // Poker evaluation (updated)
         function parseCard(cardStr) {
             return { rank: rankValues[cardStr.slice(0, -1)], suit: cardStr.slice(-1) };
         }
-
         function evaluate5(cards) {
             const parsed = cards.map(parseCard).sort((a, b) => b.rank - a.rank);
             const ranks = parsed.map(c => c.rank);
@@ -343,16 +345,24 @@
             };
             if (flush && straight && straightHigh === 14 && ranks[0] === 14) return { type: 8, high: [14], desc: descMap[8] };
             if (flush && straight) return { type: 7, high: [straightHigh], desc: descMap[7] };
-            if (rankCounts[0] === 4) return { type: 6, high: [uniqueRanks[0]], desc: descMap[6] };
+            if (rankCounts[0] === 4) {
+                const quadRank = Object.entries(counts).find(([r, c]) => c === 4)[0];
+                return { type: 6, high: [parseInt(quadRank)], desc: descMap[6] };
+            }
             if (rankCounts[0] === 3 && rankCounts[1] === 2) return { type: 5, high: [parseInt(threeRank), parseInt(pairRank)], desc: descMap[5] };
             if (flush) return { type: 4, high: ranks, desc: descMap[4] };
             if (straight) return { type: 3, high: [straightHigh], desc: descMap[3] };
-            if (rankCounts[0] === 3) return { type: 2, high: [uniqueRanks[0]], desc: descMap[2] };
-            if (rankCounts[0] === 2 && rankCounts[1] === 2) return { type: 1, high: [uniqueRanks[0], uniqueRanks[1]], desc: descMap[1] };
-            if (rankCounts[0] === 2) return { type: 0, high: [uniqueRanks[0]], desc: descMap[0] };
+            if (rankCounts[0] === 3) return { type: 2, high: [parseInt(threeRank)], desc: descMap[2] };
+            if (rankCounts[0] === 2 && rankCounts[1] === 2) {
+                const pairRanks = Object.entries(counts).filter(([r, c]) => c === 2).map(([r]) => parseInt(r)).sort((a, b) => b - a);
+                return { type: 1, high: pairRanks, desc: descMap[1] };
+            }
+            if (rankCounts[0] === 2) {
+                const pairRank = Object.entries(counts).find(([r, c]) => c === 2)[0];
+                return { type: 0, high: [parseInt(pairRank)], desc: descMap[0] };
+            }
             return { type: -1, high: ranks, desc: descMap['-1'] };
         }
-
         function evaluate3(cards) {
             const parsed = cards.map(parseCard).sort((a, b) => b.rank - a.rank);
             const ranks = parsed.map(c => c.rank);
@@ -360,10 +370,12 @@
             const rankCounts = Object.values(counts).sort((a, b) => b - a);
             const uniqueRanks = Object.keys(counts).map(Number).sort((a, b) => b - a);
             if (rankCounts[0] === 3) return { type: 2, high: uniqueRanks, desc: 'Three of a Kind' };
-            if (rankCounts[0] === 2) return { type: 1, high: [uniqueRanks[0]], desc: 'Pair' };
+            if (rankCounts[0] === 2) {
+                const pairRank = Object.entries(counts).find(([r, c]) => c === 2)[0];
+                return { type: 1, high: [parseInt(pairRank)], desc: 'Pair' };
+            }
             return { type: 0, high: uniqueRanks, desc: 'High Card' };
         }
-
         function getRoyalty(eval, row) {
             if (row === 'front') {
                 if (eval.type === 1) return Math.max(0, eval.high[0] - 5);
@@ -380,7 +392,6 @@
                 return 0;
             }
         }
-
         function getRankingKey(eval, cards, is3card = false) {
             let type = eval.type;
             if (is3card) {
@@ -412,7 +423,6 @@
             } else if (type === 8) key = key.concat([14]);
             return key;
         }
-
         function compareHands(evalA, cardsA, is3A, evalB, cardsB, is3B) {
             const keyA = getRankingKey(evalA, cardsA, is3A);
             const keyB = getRankingKey(evalB, cardsB, is3B);
@@ -424,7 +434,6 @@
             }
             return 0;
         }
-
         function combinations(arr, k) {
             const res = [];
             function comb(start, combo) {
@@ -442,6 +451,7 @@
             return res;
         }
 
+        // Step 3: Show arrangement with HIGHEST CARD PER ROW highlighted
         function arrangeHands() {
             const allCards = [...currentCards];
             const validArrangements = [];
@@ -501,9 +511,10 @@
                     <div id="backHand" class="flex justify-center flex-wrap"></div>
                 </div>
             `;
-            displayCards(best.front, 'frontHand', true);
-            displayCards(best.middle, 'middleHand', true);
-            displayCards(best.back, 'backHand', true);
+            // Highlight highest card in each row
+            displayCards(best.front, 'frontHand', true, true);
+            displayCards(best.middle, 'middleHand', true, true);
+            displayCards(best.back, 'backHand', true, true);
         }
     </script>
 </body>
