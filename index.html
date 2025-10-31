@@ -77,11 +77,10 @@
 </head>
 <body class="min-h-screen flex flex-col items-center p-4">
     <div class="content-container">
-        <h1 class="text-3xl font-bold mb-2">Card Games</h1>
-        <h2 class="text-xl mb-6 italic">Choose a game to play.</h2>
-
         <!-- Game Selection -->
         <div id="game-selection" class="step active bg-gray-100 p-6 rounded-lg shadow-lg py-extra mb-extra">
+            <h1 class="text-3xl font-bold mb-2">Card Games</h1>
+            <h2 class="text-xl mb-6 italic">Choose a game to play.</h2>
             <div class="btn-group">
                 <button onclick="selectGame('blackjack')" class="btn-primary hover:bg-red-700 text-white px-6 py-2 rounded">Black Jack</button>
                 <button onclick="selectGame('samgong')" class="btn-primary hover:bg-red-700 text-white px-6 py-2 rounded">Sam Gong</button>
@@ -91,6 +90,8 @@
 
         <!-- Black Jack Section -->
         <div id="blackjack-section" class="game-section">
+            <h1 class="text-3xl font-bold mb-2">Black Jack</h1>
+            <h2 class="text-xl mb-6 italic">Cause & Effect</h2>
             <div id="blackjack-explanation" class="explanation mx-auto mb-extra">
                 <p>Black Jack is a classic card game where the goal is to get a hand value as close to 21 as possible without going over.</p>
                 <ul class="list-disc pl-6 my-4">
@@ -134,6 +135,8 @@
 
         <!-- Sam Gong Section -->
         <div id="samgong-section" class="game-section">
+            <h1 class="text-3xl font-bold mb-2">Sam Gong</h1>
+            <h2 class="text-xl mb-6 italic">Represent the beginning, process, and end of a journey</h2>
             <div id="samgong-explanation" class="explanation mx-auto mb-extra">
                 <p>Sam Gong is a simple gambling game where you are dealt 3 cards, and the score is calculated based on the sum modulo 10.</p>
                 <ul class="list-disc pl-6 my-4">
@@ -165,7 +168,7 @@
                 <h2 class="text-xl mb-4 text-center">Your 3 Cards</h2>
                 <div id="samgongHand" class="flex flex-wrap justify-center"></div>
                 <div class="btn-group mt-8">
-                    <button onclick="resetSamGong()" class="btn-primary hover:bg-red-700 text-white px-6 py-2 rounded">New Deal</button>
+                    <button onclick="newDealSamGong()" class="btn-primary hover:bg-red-700 text-white px-6 py-2 rounded">New Deal</button>
                     <button onclick="backToSelection()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded">Back to Games</button>
                 </div>
             </div>
@@ -423,12 +426,13 @@
         function startSamGongDemo() {
             samgongDeck = shuffle(generateDeck());
             samgongHand = [samgongDeck.pop(), samgongDeck.pop(), samgongDeck.pop()];
-            displayCards(samgongHand, 'samgongHand', true, []);
+            displayCards(samgongHand, 'samgongHand', true, [0,1,2]);
             showSamGongStep('samgong-step2');
         }
-        function resetSamGong() {
-            samgongHand = [];
-            showSamGongStep('samgong-step1');
+        function newDealSamGong() {
+            samgongDeck = shuffle(generateDeck());
+            samgongHand = [samgongDeck.pop(), samgongDeck.pop(), samgongDeck.pop()];
+            displayCards(samgongHand, 'samgongHand', true, [0,1,2]);
         }
 
         // Chinese Poker (original code)
